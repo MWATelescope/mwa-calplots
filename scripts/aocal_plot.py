@@ -189,7 +189,7 @@ if __name__ == '__main__':
     """)
     parser.add_option("--refant", default=None, dest="refant", type="int", help="divide solutions through by reference antenna. Negative means divide through by mean antenna")
     parser.add_option("-m", "--metafits", default=None, dest="metafits", help="metafits file (for ordering by receiver)")
-    parser.add_option("-v", "--verbose", action="count", dest="verbose", help="-v info, -vv debug")
+    parser.add_option("-v", "--verbose", action="count", dest="verbose", help="-v info, -vv debug", default=0)
     parser.add_option("--outdir", default=None, dest="outdir", help="output directory [default: same as binfile]")
     parser.add_option("--title", default="", dest="plot_title", help="plot title")
     parser.add_option("--format", default="png", dest="format", help="plot format [default: %default]")
