@@ -11,10 +11,15 @@ It should never be necessary to import the AOClass itself, rather it can be retu
 import sys, os, struct, logging, glob
 from collections import namedtuple
 import numpy as np
-
-HEADER_FORMAT = "8s6I2d"
-HEADER_SIZE = struct.calcsize(HEADER_FORMAT)
-HEADER_INTRO = "MWAOCAL\0"
+import six
+if six.PY2:
+    HEADER_FORMAT = "8s6I2d"
+    HEADER_SIZE = struct.calcsize(HEADER_FORMAT)
+    HEADER_INTRO = "MWAOCAL\0"
+else:
+    HEADER_FORMAT = "8s6I2d"
+    HEADER_SIZE = struct.calcsize(HEADER_FORMAT)
+    HEADER_INTRO = b"MWAOCAL\0"
 
 Header = namedtuple("header", "intro fileType structureType intervalCount antennaCount channelCount polarizationCount timeStart timeEnd")
 Header.__new__.__defaults__ = (HEADER_INTRO, 0, 0, 0, 0, 0, 0, 0.0, 0.0)
