@@ -42,8 +42,8 @@ def get_receiver_slot_order(metafits):
             # tiles with this rec, slot
             ant = tiles[(tiles['Rx'] == receiver) & (tiles['Slot'] == slot)]['antenna']
             if not len(ant) == 1:
-                print ant
-                raise RuntimeError, "Rx %d Slot %d does not map to a single antenna" % (receiver, slot)
+                print(ant)
+                raise RuntimeError("Rx %d Slot %d does not map to a single antenna" % (receiver, slot))
             rec_slot_dict[receiver][slot] = ant[0]
     return rec_slot_dict
 
@@ -86,7 +86,7 @@ def plot(ao, plot_filename, refant=None, n_rows=8, plot_title="", amp_max=None, 
             logging.info("using average as reference antenna")
             ant_avg = nanaverage(ao, axis=1, weights=ao_amp**-2)#correct phase
             ant_avg /= np.abs(ant_avg) # normalised
-            print nanaverage(ao_amp, axis=1, weights=ao_amp**-2)
+            print(nanaverage(ao_amp, axis=1, weights=ao_amp**-2))
             ant_avg *= nanaverage(ao_amp, axis=1, weights=ao_amp**-2) #standard scalar avg for amp
             ao = ao / ant_avg[:, np.newaxis, :, :]
             plot_title += " refant=average"
@@ -107,7 +107,7 @@ def plot(ao, plot_filename, refant=None, n_rows=8, plot_title="", amp_max=None, 
         rec_slot_dict = get_receiver_slot_order(metafits)
         ant_iter = iter_rec_slot(rec_slot_dict)
     else:
-        ant_iter = xrange(ao.n_ant)
+        ant_iter = range(ao.n_ant)
 
     for timestep in range(ao.n_int):
 
