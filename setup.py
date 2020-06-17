@@ -25,7 +25,8 @@ def get_version():
 
 reqs =['numpy>=1.16',
        'matplotlib>=2.1.0',
-       'astropy>=2.0.2']
+       'astropy>=2.0.2',
+       'six>=1.11']
 
 
 setup(
@@ -38,7 +39,7 @@ setup(
     long_description=read('README.md'),
     long_description_content_type='text/markdown',
     packages=['calplots'],
-    #scripts=['scripts/aocal_plot.py'],
+    scripts=['scripts/aocal_plot.py'],
     install_requires=reqs,
     python_requires='>=3.6',
     setup_requires=['pytest-runner'],
