@@ -80,9 +80,9 @@ def fit_complex_gains(v, mode='model', amp_order=5, fft_pad_factor=8):
         # set "good" array to False where statistics are bad
         # return original array where not newly flagged
         #return np.where(good, v, np.nan)
-        raise RuntimeError, "clip not implemented"
+        raise RuntimeError("clip not implemented")
     else:
-        raise RuntimeError, "mode %s not implemented" % mode
+        raise RuntimeError("mode %s not implemented" % mode)
 
 class AOCal(np.ndarray):
     """
@@ -137,7 +137,7 @@ class AOCal(np.ndarray):
             # required to avoid infinite recursion
             return object.__getattribute__(self, time_end)
         else:
-            raise AttributeError, "AOCal has no Attribute %s. Dimensions can be accessed via n_int, n_ant, n_chan, n_pol" % name
+            raise AttributeError("AOCal has no Attribute %s. Dimensions can be accessed via n_int, n_ant, n_chan, n_pol" % name)
 
     def strip_edge(self, n_chan):
         """
@@ -149,7 +149,7 @@ class AOCal(np.ndarray):
 
     def tofile(self, cal_filename):
         if not (np.iscomplexobj(self) and self.itemsize == 16 and len(self.shape) == 4):
-            raise TypeError, "array must have 4 dimensions and be of type complex128"
+            raise TypeError("array must have 4 dimensions and be of type complex128")
         header = Header(intervalCount=self.shape[0], antennaCount = self.shape[1], channelCount = self.shape[2], polarizationCount = self.shape[3], timeStart = self.time_start, timeEnd = self.time_end)
         with open(cal_filename, "wb") as cal_file:
             header_string = struct.pack(HEADER_FORMAT, *header)
@@ -161,10 +161,10 @@ class AOCal(np.ndarray):
 
     def fit(self, pols=(0, 3), mode='model', amp_order=5):
         if not (np.iscomplexobj(self) and self.itemsize == 16 and len(self.shape) == 4):
-            raise TypeError, "array must have 4 dimensions and be of type complex128"
+            raise TypeError("array must have 4 dimensions and be of type complex128")
         fit_array = np.zeros(self.shape, dtype=np.complex128)
-        for interval in xrange(self.shape[0]):
-            for antenna in xrange(self.shape[1]):
+        for interval in range(self.shape[0]):
+            for antenna in range(self.shape[1]):
                 logging.debug("fitting antenna %d" % antenna)
                 for pol in pols:
                     v = self[interval, antenna, :, pol]
