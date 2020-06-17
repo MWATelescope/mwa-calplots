@@ -1,3 +1,8 @@
+This module provides a single script `aocal_plot.py` and the supporting library `aocal.py` together they are able to read calibration files created by `calibrate` and produce amplitude and phase plots.
+
+
+
+```
 Usage: aocal_plot.py binfile
     Plot calibration solutions
     
@@ -17,3 +22,4 @@ Options:
   --marker=MARKER       matplotlib marker [default: ,]
   --markersize=MARKERSIZE
                         matplotlib markersize [default: 2]
+```
