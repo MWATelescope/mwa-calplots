@@ -1,15 +1,20 @@
-#!/usr/bin/env python
+#! /usr/bin/env python
 import os, logging
 from optparse import OptionParser #NB zeus does not have argparse!
 
 import numpy as np
+from astropy.io import fits
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.gridspec as gridspec
-import pylab
-from astropy.io import fits
+from matplotlib import pylab
 
-from mwapy import aocal
+from calplots import aocal
+
+POLS = {0: "XX", 1: "XY", 2: "YX", 3: "YY"}
+POL_COLOR = {"XX": "#0000FF", "XY": "#AAAAFF", "YX": "#FFAAAA", "YY": "#FF0000"}
+POL_ZORDER = {"XX": 3, "XY": 1, "YX": 2, "YY": 4}
+
 
 def get_tile_flavors(metafits):
     """
@@ -21,6 +26,7 @@ def get_tile_flavors(metafits):
     tiles = inputs[inputs['pol'] == 'X']
     sort_ant = tiles['antenna'].argsort()
     return tiles['Flavors'][sort_ant]
+
 
 def get_receiver_slot_order(metafits):
     """
@@ -47,6 +53,7 @@ def get_receiver_slot_order(metafits):
             rec_slot_dict[receiver][slot] = ant[0]
     return rec_slot_dict
 
+
 def iter_rec_slot(rec_slot_dict):
     """
     iterate over all receivers and slots in order
@@ -55,9 +62,6 @@ def iter_rec_slot(rec_slot_dict):
         for slot in sorted(rec_slot_dict[receiver].keys()):
             yield rec_slot_dict[receiver][slot]
 
-POLS = {0: "XX", 1: "XY", 2: "YX", 3: "YY"}
-POL_COLOR = {"XX": "#0000FF", "XY": "#AAAAFF", "YX": "#FFAAAA", "YY": "#FF0000"}
-POL_ZORDER = {"XX": 3, "XY": 1, "YX": 2, "YY": 4}
 
 def nanaverage(a, axis=None, weights=None):
     """
@@ -66,6 +70,7 @@ def nanaverage(a, axis=None, weights=None):
     if weights is None:
         weights = np.ones(a.shape)
     return np.nansum(a*weights, axis=axis)/np.nansum(weights, axis=axis)
+
 
 def plot(ao, plot_filename, refant=None, n_rows=8, plot_title="", amp_max=None, format="png", outdir=None, ants_per_line=8, marker=',', markersize=2, verbose=0, metafits=None):
     """
@@ -175,6 +180,7 @@ def plot(ao, plot_filename, refant=None, n_rows=8, plot_title="", amp_max=None, 
             int_str = ""
         ampfig.savefig("%s%s_amp.%s" % (plot_filename, int_str, format))
         phsfig.savefig("%s%s_phase.%s" % (plot_filename, int_str, format))
+
 
 if __name__ == '__main__':
     parser = OptionParser(usage = "usage: %prog binfile" +
